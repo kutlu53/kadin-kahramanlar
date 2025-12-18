@@ -9,11 +9,11 @@ body,html{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,0.9);
-  display:flex;
+  display:flex;                 /* ✅ SADECE INTRO FLEX */
   align-items:center;
   justify-content:center;
   flex-direction:column;
-  z-index:1000;
+  z-index:1000;                 /* ✅ EN ÜSTTE */
 }
 
 #intro button{
@@ -35,7 +35,7 @@ body,html{
 
 /* ================= HARİTA ================= */
 #mapContainer{
-  display:none;
+  display:none;                 /* ✅ BAŞTA GİZLİ */
   position:relative;
   height:100vh;
 }
@@ -56,60 +56,6 @@ body,html{
   height:48px;
   border-radius:50%;
   border:3px solid crimson;
-  display:block; /* alt siyah boşluğu kaldırır */
-  position:relative;
-  transition:transform .15s ease, box-shadow .15s ease, border-color .3s ease;
-  cursor:pointer;
-}
-
-/* Hover parıltı */
-.hero-wrapper:hover .hero-marker{
-  transform:scale(1.12);
-  box-shadow:0 0 15px gold;
-}
-
-/* Doğru cevaplanınca yeşil */
-.hero-marker.done{
-  border-color:#1faa59 !important;
-  box-shadow:0 0 12px rgba(31,170,89,.8);
-}
-
-/* ================= TOOLTIP (title kullanan) ================= */
-.hero-wrapper .hero-marker::after{
-  content: attr(title);
-  position:absolute;
-  top:110%;                 /* fotoğrafın ALTINDA */
-  left:50%;
-  transform:translateX(-50%);
-  background:rgba(0,0,0,0.85);
-  color:#fff;
-  padding:6px 10px;
-  border-radius:6px;
-  font-size:13px;
-  white-space:nowrap;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .08s ease; /* çok hızlı */
-  z-index:10;
-}
-
-.hero-wrapper:hover .hero-marker::after{
-  opacity:1;
-}
-
-/* ================= ROZET SAYACI ================= */
-#badgeCounter{
-  position:fixed;
-  top:15px;
-  right:20px;
-  background:rgba(0,0,0,.75);
-  color:#fff;
-  padding:10px 16px;
-  border-radius:20px;
-  font-size:16px;
-  font-weight:bold;
-  box-shadow:0 4px 10px rgba(0,0,0,.3);
-  z-index:999;
 }
 
 /* ================= VİDEO MODAL ================= */
@@ -117,7 +63,7 @@ body,html{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.85);
-  display:none;
+  display:none;                 /* ✅ BAŞTA GİZLİ */
   align-items:center;
   justify-content:center;
   z-index:900;
@@ -125,9 +71,6 @@ body,html{
 
 #videoModal video{
   max-height:80vh;
-  max-width:90vw;
-  border-radius:18px;
-  background:#000;
 }
 
 /* ================= SORU MODAL ================= */
@@ -135,11 +78,242 @@ body,html{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.85);
+  display:none;                 /* ✅ BAŞTA GİZLİ */
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  color:#fff;
+  text-align:center;
+  z-index:950;
+}
+
+#answers button{
+  margin:10px;
+  padding:10px 20px;
+  font-size:16px;
+}
+
+#badge{
+  width:120px;
+  margin-top:15px;
   display:none;
+}
+.hero-wrapper:hover .hero-marker{
+  transform: scale(1.2);
+  box-shadow: 0 0 15px gold;
+}
+
+.hero-marker{
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hero-wrapper{
+  position: absolute;
+}
+
+.hero-wrapper::after{
+  content: attr(data-name);
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.hero-wrapper:hover::after{
+  opacity: 1;
+  transform: translateX(-50%) translateY(-5px);
+}
+.hero-wrapper{
+  position: absolute;
+}
+
+/* Tooltip */
+.hero-wrapper::after{
+  content: attr(data-name);
+  position: absolute;
+  top: 110%;              /* ⬅ ALTTA */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 5;
+}
+
+.hero-wrapper:hover::after{
+  opacity: 1;
+}
+/* HERO FOTOĞRAFLARI – ALT BOŞLUK SORUNU */
+.hero-marker{
+  display:block;          /* siyah boşluğu kaldırır */
+}
+
+/* TOOLTIP ALGILANAN GECİKMEYİ AZALTMA */
+.hero-wrapper{
+  transition:none !important;
+}
+
+.hero-marker{
+  cursor:pointer;
+}
+#badgeCounter{
+  position:absolute;
+  top:15px;
+  right:20px;
+  background:rgba(0,0,0,.7);
+  color:#fff;
+  padding:10px 16px;
+  border-radius:20px;
+  font-size:16px;
+  z-index:5;
+}
+
+#questionModal{
+  animation:fadeScale .4s ease;
+}
+
+@keyframes fadeScale{
+  from{opacity:0;transform:scale(.8)}
+  to{opacity:1;transform:scale(1)}
+}
+
+#answers button{
+  border:none;
+  border-radius:14px;
+  background:#222;
+  color:#fff;
+  transition:.2s;
+}
+
+#answers button:hover{
+  transform:scale(1.05);
+  background:crimson;
+}
+
+.correct{
+  background:#1faa59!important;
+}
+
+.wrong{
+  animation:shake .3s;
+}
+
+@keyframes shake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-5px)}
+  50%{transform:translateX(5px)}
+  75%{transform:translateX(-5px)}
+  100%{transform:translateX(0)}
+}
+#finalModal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:none;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
   color:#fff;
-  z-index:950;
+  z-index:20;
+  animation:fadeScale .6s ease;
+}
+
+#finalModal img{
+  width:280px;
+  animation:zoomIn .6s ease;
+}
+
+@keyframes zoomIn{
+  from{transform:scale(.6);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+/* Başlangıç: kırmızı zaten var */
+.hero-marker{
+  border:3px solid crimson;
+  transition:border-color .3s, box-shadow .3s;
+}
+
+/* Doğru cevaplanınca */
+.hero-marker.done{
+  border-color:#1faa59;
+  box-shadow:0 0 12px rgba(31,170,89,.8);
+}
+#badgeCounter{
+  position:fixed;
+  top:15px;
+  right:20px;
+  background:#111;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:20px;
+  font-weight:bold;
+  box-shadow:0 4px 10px rgba(0,0,0,.3);
+  z-index:999;
+}
+#finalScreen{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  color:#fff;
+  z-index:9999;
+  animation:fadeIn .8s ease;
+}
+
+#finalScreen img{
+  width:300px;
+  animation:pop 1s ease;
+}
+
+@keyframes pop{
+  0%{transform:scale(.5); opacity:0}
+  100%{transform:scale(1); opacity:1}
+}
+
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+/* Yeşil tamamlandı çerçevesi */
+.hero-marker.done{
+  border-color:#1faa59 !important;
+  box-shadow:0 0 12px rgba(31,170,89,.8);
+}
+
+/* Rozet sayacı */
+#badgeCounter{
+  position:absolute;
+  top:15px;
+  right:20px;
+  background:#111;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:20px;
+  font-weight:bold;
+  box-shadow:0 4px 10px rgba(0,0,0,.3);
+  z-index:10;
+}
+
+/* Modern soru kartı */
+#questionModal{
+  background:rgba(0,0,0,.85);
 }
 
 #qCard{
@@ -150,7 +324,11 @@ body,html{
   padding:22px 20px;
   box-shadow:0 18px 60px rgba(0,0,0,.55);
   animation:fadeScale .35s ease;
-  text-align:center;
+}
+
+@keyframes fadeScale{
+  from{opacity:0; transform:scale(.88)}
+  to{opacity:1; transform:scale(1)}
 }
 
 #questionText{
@@ -190,6 +368,14 @@ body,html{
   animation:shake .25s;
 }
 
+@keyframes shake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  50%{transform:translateX(6px)}
+  75%{transform:translateX(-4px)}
+  100%{transform:translateX(0)}
+}
+
 #feedback{
   min-height:22px;
   margin:8px 0 0 0;
@@ -212,7 +398,7 @@ body,html{
   cursor:pointer;
 }
 
-/* ================= FINAL EKRAN ================= */
+/* Final ekran */
 #finalScreen{
   position:fixed;
   inset:0;
@@ -232,20 +418,6 @@ body,html{
   border-radius:22px;
   box-shadow:0 18px 70px rgba(0,0,0,.7);
   animation:pop .7s ease;
-}
-
-/* ================= ANİMASYONLAR ================= */
-@keyframes fadeScale{
-  from{opacity:0; transform:scale(.88)}
-  to{opacity:1; transform:scale(1)}
-}
-
-@keyframes shake{
-  0%{transform:translateX(0)}
-  25%{transform:translateX(-6px)}
-  50%{transform:translateX(6px)}
-  75%{transform:translateX(-4px)}
-  100%{transform:translateX(0)}
 }
 
 @keyframes pop{
