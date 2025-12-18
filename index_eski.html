@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kadın Kahramanlar Haritası</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Giriş alanı */
+    #intro {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    #intro video {
+      width: 70%;
+      max-width: 800px;
+      border-radius: 12px;
+      display: none;
+    }
+
+    #startBtn {
+      padding: 16px 28px;
+      font-size: 20px;
+      border: none;
+      border-radius: 30px;
+      background: crimson;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255,0,0,0.7);
+    }
+
+    /* Harita alanı */
+    #map-container {
+      position: absolute;
+      inset: 0;
+      background: url('türkiye haritası.jpeg') center/contain no-repeat;
+      background-color: #1e6f8c;
+      display: none;
+    }
+
+    /* Kahraman noktaları */
+    .point {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: crimson;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(255,0,0,0.8);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Video popup */
+    #videoModal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    #videoCard {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      animation: scaleIn 0.4s ease;
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    #videoTitle {
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    #videoDesc {
+      color: #ddd;
+      font-size: 14px;
+      max-width: 360px;
+      text-align: center;
+    }
+
+    #videoModal video {
+      max-width: 360px;
+      max-height: 80vh;
+      width: auto;
+      height: auto;
+      aspect-ratio: 9 / 16;
+      border-radius: 28px;
+      background: black;
+      box-shadow: 0 0 40px rgba(0,0,0,0.8);
+    }
+
+    #closeBtn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Giriş -->
+  <div id="intro">
+    <button id="startBtn">▶ Tanıtım Videosunu Başlat</button>
+    <video id="introVideo" controls>
+      <source src="giriş maskotu.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <!-- Harita -->
+  <div id="map-container">
+  <!-- SVG KAPSAYICI + GERÇEK TÜRKİYE HARİTASI GÖRSELİ -->
+  <!-- Harita artık SVG içine image olarak alındı; noktalar %100 doğru hizalanır -->
+
+  <svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%">
+
+    <!-- Türkiye haritası (arka plan) -->
+    <image href="türkiye haritası.jpeg" x="0" y="0" width="1200" height="600" preserveAspectRatio="xMidYMid meet" />
+
+    <!-- === KADIN KAHRAMAN NOKTALARI === -->
+
+    <!-- İstanbul -->
+    <circle cx="360" cy="190" r="8" fill="crimson" onclick="openVideo('video/halide_edip.mp4')">
+      <title>Halide Edip – İstanbul</title>
+    </circle>
+    <circle cx="340" cy="205" r="8" fill="crimson" onclick="openVideo('video/safiye_ali.mp4')">
+      <title>Safiye Ali – İstanbul</title>
+    </circle>
+    <circle cx="380" cy="205" r="8" fill="crimson" onclick="openVideo('video/nezihe_muhiddin.mp4')">
+      <title>Nezihe Muhiddin – İstanbul</title>
+    </circle>
+
+    <!-- Kocaeli -->
+    <circle cx="410" cy="215" r="8" fill="crimson" onclick="openVideo('video/kara_fatma.mp4')">
+      <title>Kara Fatma – Kocaeli</title>
+    </circle>
+
+    <!-- Sakarya -->
+    <circle cx="450" cy="230" r="8" fill="crimson" onclick="openVideo('video/nezahat_onbasi.mp4')">
+      <title>Nezahat Onbaşı – Sakarya</title>
+    </circle>
+
+    <!-- Ankara -->
+    <circle cx="600" cy="310" r="8" fill="crimson" onclick="openVideo('video/afet_inan.mp4')">
+      <title>Afet İnan – Ankara</title>
+    </circle>
+    <circle cx="625" cy="325" r="8" fill="crimson" onclick="openVideo('video/sati_kadin.mp4')">
+      <title>Satı Kadın – Ankara</title>
+    </circle>
+    <circle cx="650" cy="300" r="8" fill="crimson" onclick="openVideo('video/sabiha_gokcen.mp4')">
+      <title>Sabiha Gökçen – Ankara</title>
+    </circle>
+
+       <!-- Kastamonu / İnebolu -->
+    <circle cx="560" cy="210" r="8" fill="crimson" onclick="openVideo('video/serife_baci.mp4')">
+      <title>Şerife Bacı – Kastamonu</title>
+    </circle>
+    <circle cx="575" cy="195" r="8" fill="crimson" onclick="openVideo('video/halime_cavus.mp4')">
+      <title>Halime Çavuş – İnebolu Cephesi</title>
+    </circle>
+
+    <!-- Gördes / Simav -->
+    <circle cx="450" cy="345" r="8" fill="crimson" onclick="openVideo('video/gordesli_makbule.mp4')">
+      <title>Gördesli Makbule – Gördes / Simav</title>
+    </circle>
+
+    <!-- Osmaniye -->
+    <circle cx="700" cy="420" r="8" fill="crimson" onclick="openVideo('video/tayyar_rahmiye.mp4')">
+      <title>Tayyar Rahmiye Hanım – Osmaniye</title>
+    </circle>
+
+  </svg>
+</div>
+
+    
+
+  
+    <!-- Video modal -->
+  <div id="videoModal">
+    <span id="closeBtn" onclick="closeVideo()">✕</span>
+    <div id="videoCard">
+      <div id="videoTitle"></div>
+      <video id="heroVideo" controls></video>
+      <div id="videoDesc"></div>
+    </div>
+  </div>
+
+  <script>
+    const intro = document.getElementById('intro');
+    const introVideo = document.getElementById('introVideo');
+    const startBtn = document.getElementById('startBtn');
+    const map = document.getElementById('map-container');
+
+    startBtn.onclick = () => {
+      startBtn.style.display = 'none';
+      introVideo.style.display = 'block';
+      introVideo.play();
+    };
+
+    introVideo.onended = () => {
+      intro.style.display = 'none';
+      map.style.display = 'block';
+    };
+
+        function openVideo(src, title = '', desc = '') {
+      const modal = document.getElementById('videoModal');
+      const video = document.getElementById('heroVideo');
+      document.getElementById('videoTitle').innerText = title;
+      document.getElementById('videoDesc').innerText = desc;
+      video.src = src;
+      modal.style.display = 'flex';
+      video.play();
+    }
+
+    function closeVideo() {
+      const modal = document.getElementById('videoModal');
+      const video = document.getElementById('heroVideo');
+      video.pause();
+      video.src = '';
+      modal.style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>

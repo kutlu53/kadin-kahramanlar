@@ -1,0 +1,431 @@
+body,html{
+  margin:0;
+  height:100%;
+  font-family:Arial;
+}
+
+/* ================= INTRO ================= */
+#intro{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.9);
+  display:flex;                 /* ✅ SADECE INTRO FLEX */
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:1000;                 /* ✅ EN ÜSTTE */
+}
+
+#intro button{
+  padding:16px 28px;
+  font-size:20px;
+  border:none;
+  border-radius:30px;
+  background:crimson;
+  color:white;
+  cursor:pointer;
+  margin-bottom:20px;
+}
+
+#intro video{
+  display:none;
+  width:70%;
+  max-width:800px;
+}
+
+/* ================= HARİTA ================= */
+#mapContainer{
+  display:none;                 /* ✅ BAŞTA GİZLİ */
+  position:relative;
+  height:100vh;
+}
+
+.map-image{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.hero-wrapper{
+  position:absolute;
+  cursor:pointer;
+}
+
+.hero-marker{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  border:3px solid crimson;
+}
+
+/* ================= VİDEO MODAL ================= */
+#videoModal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;                 /* ✅ BAŞTA GİZLİ */
+  align-items:center;
+  justify-content:center;
+  z-index:900;
+}
+
+#videoModal video{
+  max-height:80vh;
+}
+
+/* ================= SORU MODAL ================= */
+#questionModal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;                 /* ✅ BAŞTA GİZLİ */
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  color:#fff;
+  text-align:center;
+  z-index:950;
+}
+
+#answers button{
+  margin:10px;
+  padding:10px 20px;
+  font-size:16px;
+}
+
+#badge{
+  width:120px;
+  margin-top:15px;
+  display:none;
+}
+.hero-wrapper:hover .hero-marker{
+  transform: scale(1.2);
+  box-shadow: 0 0 15px gold;
+}
+
+.hero-marker{
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hero-wrapper{
+  position: absolute;
+}
+
+.hero-wrapper::after{
+  content: attr(data-name);
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.hero-wrapper:hover::after{
+  opacity: 1;
+  transform: translateX(-50%) translateY(-5px);
+}
+.hero-wrapper{
+  position: absolute;
+}
+
+/* Tooltip */
+.hero-wrapper::after{
+  content: attr(data-name);
+  position: absolute;
+  top: 110%;              /* ⬅ ALTTA */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 5;
+}
+
+.hero-wrapper:hover::after{
+  opacity: 1;
+}
+/* HERO FOTOĞRAFLARI – ALT BOŞLUK SORUNU */
+.hero-marker{
+  display:block;          /* siyah boşluğu kaldırır */
+}
+
+/* TOOLTIP ALGILANAN GECİKMEYİ AZALTMA */
+.hero-wrapper{
+  transition:none !important;
+}
+
+.hero-marker{
+  cursor:pointer;
+}
+#badgeCounter{
+  position:absolute;
+  top:15px;
+  right:20px;
+  background:rgba(0,0,0,.7);
+  color:#fff;
+  padding:10px 16px;
+  border-radius:20px;
+  font-size:16px;
+  z-index:5;
+}
+
+#questionModal{
+  animation:fadeScale .4s ease;
+}
+
+@keyframes fadeScale{
+  from{opacity:0;transform:scale(.8)}
+  to{opacity:1;transform:scale(1)}
+}
+
+#answers button{
+  border:none;
+  border-radius:14px;
+  background:#222;
+  color:#fff;
+  transition:.2s;
+}
+
+#answers button:hover{
+  transform:scale(1.05);
+  background:crimson;
+}
+
+.correct{
+  background:#1faa59!important;
+}
+
+.wrong{
+  animation:shake .3s;
+}
+
+@keyframes shake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-5px)}
+  50%{transform:translateX(5px)}
+  75%{transform:translateX(-5px)}
+  100%{transform:translateX(0)}
+}
+#finalModal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  z-index:20;
+  animation:fadeScale .6s ease;
+}
+
+#finalModal img{
+  width:280px;
+  animation:zoomIn .6s ease;
+}
+
+@keyframes zoomIn{
+  from{transform:scale(.6);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+/* Başlangıç: kırmızı zaten var */
+.hero-marker{
+  border:3px solid crimson;
+  transition:border-color .3s, box-shadow .3s;
+}
+
+/* Doğru cevaplanınca */
+.hero-marker.done{
+  border-color:#1faa59;
+  box-shadow:0 0 12px rgba(31,170,89,.8);
+}
+#badgeCounter{
+  position:fixed;
+  top:15px;
+  right:20px;
+  background:#111;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:20px;
+  font-weight:bold;
+  box-shadow:0 4px 10px rgba(0,0,0,.3);
+  z-index:999;
+}
+#finalScreen{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  color:#fff;
+  z-index:9999;
+  animation:fadeIn .8s ease;
+}
+
+#finalScreen img{
+  width:300px;
+  animation:pop 1s ease;
+}
+
+@keyframes pop{
+  0%{transform:scale(.5); opacity:0}
+  100%{transform:scale(1); opacity:1}
+}
+
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+/* Yeşil tamamlandı çerçevesi */
+.hero-marker.done{
+  border-color:#1faa59 !important;
+  box-shadow:0 0 12px rgba(31,170,89,.8);
+}
+
+/* Rozet sayacı */
+#badgeCounter{
+  position:absolute;
+  top:15px;
+  right:20px;
+  background:#111;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:20px;
+  font-weight:bold;
+  box-shadow:0 4px 10px rgba(0,0,0,.3);
+  z-index:10;
+}
+
+/* Modern soru kartı */
+#questionModal{
+  background:rgba(0,0,0,.85);
+}
+
+#qCard{
+  width:min(520px, 92vw);
+  background:rgba(20,20,20,.95);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:22px;
+  padding:22px 20px;
+  box-shadow:0 18px 60px rgba(0,0,0,.55);
+  animation:fadeScale .35s ease;
+}
+
+@keyframes fadeScale{
+  from{opacity:0; transform:scale(.88)}
+  to{opacity:1; transform:scale(1)}
+}
+
+#questionText{
+  margin:0 0 14px 0;
+  font-size:20px;
+  line-height:1.25;
+}
+
+#answers{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin:10px 0 8px 0;
+}
+
+.ansBtn{
+  border:none;
+  border-radius:16px;
+  padding:12px 14px;
+  font-size:16px;
+  background:#1f1f1f;
+  color:#fff;
+  cursor:pointer;
+  transition:transform .15s ease, background .15s ease;
+}
+
+.ansBtn:hover{
+  transform:scale(1.02);
+  background:#2a2a2a;
+}
+
+.ansBtn.correct{
+  background:#1faa59 !important;
+}
+
+.ansBtn.wrong{
+  animation:shake .25s;
+}
+
+@keyframes shake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  50%{transform:translateX(6px)}
+  75%{transform:translateX(-4px)}
+  100%{transform:translateX(0)}
+}
+
+#feedback{
+  min-height:22px;
+  margin:8px 0 0 0;
+  color:#ddd;
+}
+
+#badge{
+  width:120px;
+  margin-top:12px;
+  display:none;
+}
+
+#backBtn{
+  margin-top:14px;
+  border:none;
+  border-radius:16px;
+  padding:12px 14px;
+  background:crimson;
+  color:#fff;
+  cursor:pointer;
+}
+
+/* Final ekran */
+#finalScreen{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.92);
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#fff;
+  z-index:9999;
+  animation:fadeIn .6s ease;
+}
+
+#finalScreen img{
+  width:min(360px, 80vw);
+  border-radius:22px;
+  box-shadow:0 18px 70px rgba(0,0,0,.7);
+  animation:pop .7s ease;
+}
+
+@keyframes pop{
+  from{opacity:0; transform:scale(.75)}
+  to{opacity:1; transform:scale(1)}
+}
+
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
