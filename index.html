@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Kadın Kahramanlar Haritası</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- AÇILIŞ -->
+<div id="intro">
+  <button id="startBtn">▶ Tanıtım Videosunu Başlat</button>
+  <video id="introVideo" controls>
+    <source src="video/giris_maskotu.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- HARİTA -->
+<div id="mapContainer">
+  <div id="badgeCounter">🏅 Rozetler: <span id="badgeCount">0</span>/12</div>
+
+  <img src="harita.jpeg" class="map-image">
+
+  <!-- ŞERİFE BACI -->
+  <div class="hero-wrapper" style="top:30%; left:48%;" onclick="openVideo('video/serife_baci.mp4','serife')">
+    <img src="images/serife_baci.jpg" class="hero-marker" title="Şerife Bacı">
+  </div>
+
+  <!-- KARA FATMA -->
+  <div class="hero-wrapper" style="top:36%; left:38%;" onclick="openVideo('video/kara_fatma.mp4','kara')">
+    <img src="images/kara_fatma.jpg" class="hero-marker" title="Kara Fatma">
+  </div>
+
+  <!-- TAYYAR RAHMİYE -->
+  <div class="hero-wrapper" style="top:63%; left:53%;" onclick="openVideo('video/tayyar_rahmiye.mp4','tayyar')">
+    <img src="images/tayyar_rahmiye.jpg" class="hero-marker" title="Tayyar Rahmiye">
+  </div>
+
+  <!-- NEZAHAT ONBAŞI -->
+  <div class="hero-wrapper" style="top:38%; left:46%;" onclick="openVideo('video/nezahat_onbasi.mp4','nezahat')">
+    <img src="images/nezahat_onbasi.jpg" class="hero-marker" title="Nezahat Onbaşı">
+  </div>
+
+  <!-- GÖRDESLİ MAKBULE -->
+  <div class="hero-wrapper" style="top:48%; left:36%;" onclick="openVideo('video/gordesli_makbule.mp4','makbule')">
+    <img src="images/gordesli_makbule.jpg" class="hero-marker" title="Gördesli Makbule">
+  </div>
+
+  <!-- HALİDE EDİP -->
+  <div class="hero-wrapper" style="top:32%; left:33%;" onclick="openVideo('video/halide_edip.mp4','halide')">
+    <img src="images/halide_edip.jpg" class="hero-marker" title="Halide Edip Adıvar">
+  </div>
+
+  <!-- SAFİYE ALİ -->
+  <div class="hero-wrapper" style="top:34%; left:31%;" onclick="openVideo('video/safiye_ali.mp4','safiye')">
+    <img src="images/safiye_ali.jpg" class="hero-marker" title="Safiye Ali">
+  </div>
+
+  <!-- NEZİHE MUHİDDİN -->
+  <div class="hero-wrapper" style="top:30%; left:35%;" onclick="openVideo('video/nezihe_muhiddin.mp4','nezihe')">
+    <img src="images/nezihe_muhiddin.jpg" class="hero-marker" title="Nezihe Muhiddin">
+  </div>
+
+  <!-- HALİME ÇAVUŞ -->
+  <div class="hero-wrapper" style="top:26%; left:46%;" onclick="openVideo('video/halime_cavus.mp4','halime')">
+    <img src="images/halime_cavus.jpg" class="hero-marker" title="Halime Çavuş">
+  </div>
+
+  <!-- AFET İNAN -->
+  <div class="hero-wrapper" style="top:44%; left:50%;" onclick="openVideo('video/afet_inan.mp4','afet')">
+    <img src="images/afet_inan.jpg" class="hero-marker" title="Afet İnan">
+  </div>
+
+  <!-- SATI KADIN -->
+  <div class="hero-wrapper" style="top:46%; left:52%;" onclick="openVideo('video/sati_kadin.mp4','sati')">
+    <img src="images/sati_kadin.jpg" class="hero-marker" title="Satı Kadın">
+  </div>
+
+  <!-- SABİHA GÖKÇEN -->
+  <div class="hero-wrapper" style="top:42%; left:51%;" onclick="openVideo('video/sabiha_gokcen.mp4','sabiha')">
+    <img src="images/sabiha_gokcen.jpg" class="hero-marker" title="Sabiha Gökçen">
+  </div>
+</div>
+
+<!-- VİDEO -->
+<div id="videoModal" onclick="closeVideo()">
+  <video id="heroVideo" controls></video>
+</div>
+
+<!-- SORU -->
+<div id="questionModal">
+  <div id="qCard">
+    <h2 id="questionText"></h2>
+    <div id="answers"></div>
+    <p id="feedback"></p>
+    <img src="rozet.jpeg" id="badge">
+    <button id="backBtn" onclick="closeQuestion()">Haritaya Dön</button>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div id="finalScreen">
+  <img src="son_rozet.png" alt="Final Rozet">
+  <h1>🎉 Tebrikler!</h1>
+  <p>Tüm Kadın Kahramanları başarıyla tamamladın.</p>
+</div>
+
+<script>
+/* ========= Intro ========= */
+const intro = document.getElementById("intro");
+const introVideo = document.getElementById("introVideo");
+const startBtn = document.getElementById("startBtn");
+const map = document.getElementById("mapContainer");
+
+startBtn.onclick = () => {
+  startBtn.style.display = "none";
+  introVideo.style.display = "block";
+  introVideo.play();
+};
+
+introVideo.onended = () => {
+  intro.style.display = "none";
+  map.style.display = "block";
+};
+
+/* ========= Questions ========= */
+const questions = {
+  serife:{ q:"Şerife Bacı, Milli Mücadele’de hangi görevi yapmıştır?", a:["Cepheye cephane taşımıştır","Sadece evlerde yemek yapmıştır"], c:0 },
+  kara:{ q:"Kara Fatma savaşta hangi rolü üstlenmiştir?", a:["Milis birliği komutanlığı yapmıştır","Sadece hastanelerde çalışmıştır"], c:0 },
+  tayyar:{ q:"Tayyar Rahmiye neden “Tayyar” lakabıyla anılmıştır?", a:["Görevlerinde çok hızlı ve cesur davrandığı için","Uçak kullandığı için"], c:0 },
+  makbule:{ q:"Gördesli Makbule Milli Mücadele’de ne yapmıştır?", a:["Eşiyle birlikte dağlarda çete savaşlarına katılmıştır","Savaş boyunca öğretmenlik yapmıştır"], c:0 },
+  halime:{ q:"Halime Çavuş neden erkek kılığına girmiştir?", a:["Cephede görev alabilmek için","Tiyatro oyunu oynamak için"], c:0 },
+  nezahat:{ q:"Nezahat Onbaşı hangi yaşta cephede görev almıştır?", a:["Çok küçük yaşta, çocuk denecek yaşta","40 yaşındayken"], c:0 },
+  safiye:{ q:"Safiye Ali kimdir?", a:["Türkiye’nin ilk kadın doktorudur","İlk kadın avukattır"], c:0 },
+  halide:{ q:"Halide Edip 1919’da hangi önemli olayı gerçekleştirmiştir?", a:["Sultanahmet Mitingi’nde konuşma yapmıştır","İlk kadın pilot olarak uçmuştur"], c:0 },
+  nezihe:{ q:"Nezihe Muhiddin hangi alanda öncüdür?", a:["Kadın hakları ve siyasal örgütlenme alanında","Sporculuk alanında"], c:0 },
+  afet:{ q:"Afet İnan hangi alanda çalışmalarıyla bilinir?", a:["Tarih ve sosyoloji alanında","Kimya alanında"], c:0 },
+  sati:{ q:"Satı Kadın hangi görevle tanınır?", a:["İlk kadın milletvekillerinden biri olmasıyla","İlk kadın hemşire olmasıyla"], c:0 },
+  sabiha:{ q:"Sabiha Gökçen kimdir?", a:["Dünyanın ilk kadın savaş pilotlarından biridir","İlk kadın milletvekilidir"], c:0 }
+};
+
+let currentHero = "";
+let badgeCount = 0;
+const TOTAL_HEROES = 12;
+const solved = new Set();
+
+/* ✅ EKLENDİ: o anki sorunun doğru şıkkı (0 ya da 1) */
+let currentCorrect = 0;
+
+/* ========= Video Flow ========= */
+function openVideo(src, hero){
+  const img = document.querySelector(`.hero-wrapper[onclick*="${hero}"] img`);
+  if(img && img.classList.contains("done")){
+    alert("✅ Bu kahramanın görevini zaten tamamladın!");
+    return;
+  }
+
+  currentHero = hero;
+  const modal = document.getElementById("videoModal");
+  const video = document.getElementById("heroVideo");
+  modal.style.display = "flex";
+  video.src = src;
+  video.play();
+  video.onended = showQuestion;
+}
+
+function closeVideo(){
+  const modal = document.getElementById("videoModal");
+  const video = document.getElementById("heroVideo");
+  video.pause();
+  video.src = "";
+  modal.style.display = "none";
+}
+
+/* ========= Question Flow ========= */
+function showQuestion(){
+  closeVideo();
+  const q = questions[currentHero];
+  if(!q) return;
+
+  document.getElementById("questionText").innerText = q.q;
+  const ans = document.getElementById("answers");
+  ans.innerHTML = "";
+
+  /* ✅ SADECE BURASI: doğru şık bazen 1 bazen 2 olsun */
+  let options = [q.a[0], q.a[1]];
+  currentCorrect = 0; // normalde doğru 1. seçenek
+
+  if(Math.random() < 0.5){
+    // şıkları yer değiştir
+    options = [q.a[1], q.a[0]];
+    currentCorrect = 1; // swap olunca doğru 2. seçenek olur
+  }
+
+  options.forEach((t,i)=>{
+    const b = document.createElement("button");
+    b.className = "ansBtn";
+    b.innerText = t;
+    b.onclick = ()=>checkAnswer(i);
+    ans.appendChild(b);
+  });
+
+  document.getElementById("feedback").innerText = "";
+  document.getElementById("badge").style.display = "none";
+  document.getElementById("questionModal").style.display = "flex";
+}
+
+function checkAnswer(i){
+  const q = questions[currentHero];
+  const buttons = document.querySelectorAll(".ansBtn");
+  buttons.forEach(btn=>btn.classList.remove("correct","wrong"));
+
+  /* ✅ SADECE BURASI: q.c yerine currentCorrect kullanıldı */
+  if(i === currentCorrect){
+    buttons[i].classList.add("correct");
+
+    const img = document.querySelector(`.hero-wrapper[onclick*="${currentHero}"] img`);
+    if(img) img.classList.add("done");
+
+    if(!solved.has(currentHero)){
+      solved.add(currentHero);
+      badgeCount++;
+      document.getElementById("badgeCount").innerText = badgeCount;
+    }
+
+    document.getElementById("feedback").innerText = "🎉 Harika! Bir rozet kazandın!";
+    document.getElementById("badge").style.display = "block";
+
+    if(badgeCount === TOTAL_HEROES){
+      setTimeout(()=>{
+        document.getElementById("questionModal").style.display = "none";
+        showFinalScreen();
+      }, 900);
+    }
+  }else{
+    buttons[i].classList.add("wrong");
+    document.getElementById("feedback").innerText = "❌ Yanlış, tekrar dene";
+  }
+}
+
+function closeQuestion(){
+  document.getElementById("questionModal").style.display = "none";
+}
+
+/* ========= Final ========= */
+function showFinalScreen(){
+  document.getElementById("finalScreen").style.display = "flex";
+}
+</script>
+
+</body>
+</html>
